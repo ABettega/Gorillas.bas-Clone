@@ -1,0 +1,32 @@
+body {
+  padding: 0;
+  text-align: center;
+}
+
+.game-intro {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-intro p {
+  font-size: 18px;
+  font-family: "Verdana"
+}
+
+body button {
+  font-size: 30px;
+  background-color: #870007;
+  color: #fff;
+  padding: 10px 20px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#game-board {
+    padding: 0px 0px;
+    margin: 0 auto;
+}
