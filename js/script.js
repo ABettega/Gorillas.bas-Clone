@@ -1,15 +1,14 @@
-let player1 = new Gorilla(355, 1);
-let player2 = new Gorilla(355, 2);
+let player1;
+let player2;
 let ct;
 let canvas = document.getElementById('canvas');
-let gravity = 0.4;
-let windSpeed = 0.0;
 let drawnBack = false;
 let firedBanana = false;
 let currBanana;
 let drawBackCirc;
 let shootingCirc;
 let board;
+let animationFrame;
 
 window.onload = function () {
   ct = canvas.getContext('2d');
@@ -29,32 +28,6 @@ window.onload = function () {
   };
 }
 
-const updateGameArea = () => {
-  // board.drawBoard();
-  // requestAnimationFrame(board.drawBoard);
-  // player1.drawShootingCircle();
-  // player2.drawShootingCircle();
-  // updateFaixas();
-  // player.newPos();
-  // updateObstacles();
-  // checkGameOver();
-  // road.score();
-};
-
-// // const updateFaixas = () => {
-// //   for (let i = 0; i < faixas.length; i++) {
-// //     faixas[i].y += 10;
-// //     faixas[i].update();
-// //     if (faixas[i].y > 620)
-// //       faixas.shift();
-// //   }
-// //   road.frames += 1;
-// //   if (road.frames % 5 === 0) {
-// //     faixas.push(new Faixas());
-// //   }
-// }
-
-
 // document.onkeydown = function(e) {
 //   switch (e.keyCode) {
 //     case 37: // left arrow
@@ -68,27 +41,6 @@ const updateGameArea = () => {
 //   }
 // };
 
-// function updateObstacles() {
-//   for (let i = 0; i < obstaculos.length; i++) {
-//     obstaculos[i].y += 10;
-//     obstaculos[i].update();
-//     if (obstaculos[i].y > 580)
-//       obstaculos.shift();
-//   }
-//   if (road.frames % 80 === 0) {
-//     let minWidth = 100;
-//     let maxWidth = 300;
-//     let width = Math.floor(
-//       Math.random() * (maxWidth - minWidth + 1) + minWidth
-//     );
-//     let x = Math.floor(Math.random() * (400)) - width;
-//     if (x < 0)
-//       x = 0;
-//     let componente = new Component(width, 20, x, 0, false, false);
-//     obstaculos.push(componente);
-//   }
-// }
-
 // function checkGameOver() {
 //   let crashed = obstaculos.some(function(obstacle) {
 //     return player.crashWith(obstacle);
@@ -98,36 +50,7 @@ const updateGameArea = () => {
 //     road.stop();
 //   }
 
-/*
- * Event Listeners *
- */
-let mousePos;
-let mouseDown = false;
-let mouseUp = false;
-
-addEventListener('mousemove', function (evt) {
-  mousePos = getMousePos(canvas, evt);
-}, false);
-addEventListener('mousedown', function (evt) {
-  mousePos = getMousePos(canvas, evt);
-  mouseDown = true;
-  mouseUp = false;
-}, false);
-addEventListener('mouseup', function (evt) {
-  mousePos = getMousePos(canvas, evt);
-  mouseDown = false;
-  mouseUp = true;
-}, false);
-
-function getMousePos(canvas, evt) {
-  const rect = canvas.getBoundingClientRect();
-  return {
-    x: evt.clientX - rect.left,
-    y: evt.clientY - rect.top,
-  };
-}
-
-var distBetween = function(p1, p2) {
+let distBetween = function(p1, p2) {
   return Math.sqrt( Math.pow((p2.x-p1.x), 2)
   + Math.pow((p2.y-p1.y), 2) );
 }
@@ -177,12 +100,10 @@ let update = function () {
     currBanana.fireBanana();
     firedBanana = false;
   }
-  // clear the canvas
   ct.clearRect(0, 0, 1200, 600);
 }
 
 let render = function () {
-  // if(mousePos) writeInfo(mousePos);
   board.drawBoard();
   player1.drawPlayer(player1.x, player1.y);
   player2.drawPlayer(player2.x, player2.y);
@@ -205,5 +126,13 @@ let drawAimer = function () {
 let main = function () {
   update();
   render();
-  requestAnimationFrame(main);
+  if (!player1.alive) {
+    cancelAnimationFrame(animationFrame);
+    board.stop();
+  } else if (!player2.alive) {
+    cancelAnimationFrame(animationFrame);
+    board.stop();
+  } else {
+    animationframe = requestAnimationFrame(main);
+  }
 }

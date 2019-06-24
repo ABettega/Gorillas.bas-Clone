@@ -1,9 +1,14 @@
 class Board {
   constructor() {
     this.frames = 0;
+    this.speedMod = 4;
+    this.gravity = 0.4;
+    this.windSpeed = 0.0;
   }
   
   start() {
+    player1 = new Gorilla(355, 1);
+    player2 = new Gorilla(355, 2);
     ct.width = 1200;
     ct.height = 600;
     this.clear();
@@ -19,16 +24,20 @@ class Board {
   };
   restart() {
     if (confirm('Are you sure you want to restart?')) {
-      player1 = new Gorilla(355, 1);
-      player2 = new Gorilla(355, 2);
-      this.start();
+      // this.start();
+      location.reload();
+      // cancelAnimationFrame(animationFrame);
+      // this.stop();
+      // player1 = new Gorilla(355, 1);
+      // player2 = new Gorilla(355, 2);
+      // main();
     }
   }
   clear() {
     ct.clearRect(0, 0, ct.width, ct.height);
   }
   stop() {
-    clearInterval(this.interval);
+    cancelAnimationFrame(animationFrame);
     ct.clearRect(0, 0, 1200, 600);
     ct.fillStyle = 'black';
     ct.fillRect(0, 0, 1200, 600);
@@ -56,6 +65,7 @@ class Board {
     ct.fill();
     ct.closePath();
 
+    ct.font = '10px Arial'
     ct.fillStyle = '#FFF';
     ct.fillText(this.frames, 2, 10);
   }
@@ -74,6 +84,6 @@ class Board {
     if (this.playerTurn === 1)
       this.playerNumber = 2;
     else
-      this.playerNumber = 1;
+      this.playerNumber = 1;    
   }
 };

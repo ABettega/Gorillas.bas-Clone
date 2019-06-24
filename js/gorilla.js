@@ -6,6 +6,7 @@ class Gorilla {
     this.height = 50;
     this.img = document.getElementById('temp-asset');
     this.img2 = document.getElementById('temp-asset-player2');
+    this.alive = true;
 
     if (this.playerNumber === 1) {
       this.x = Math.floor(Math.random() * 300);
@@ -83,13 +84,5 @@ class Gorilla {
   }
   bottom() {
     return this.y + this.height;
-  }
-  crashWith(obstacle) {
-    // if (obstacle.y >= player.top() - 10) {
-    //   if ((player.left() > obstacle.left() || player.right() > obstacle.left()) &&
-    //   (player.left() < obstacle.right() || player.right() < obstacle.right())) {
-    //     return true;
-    //   }
-    // }
   }
 }
