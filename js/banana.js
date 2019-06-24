@@ -1,20 +1,19 @@
-// array of all arrows
-var arrows = [];
+var bananas = [];
 let imgBanana = document.getElementById('temp-banana');
 
 // adjusts arrow speed
-var speedMod = 5;
+var speedMod = 4;
 
-var addArrow = function() {
-  arrows.unshift(new Arrow()); // unshift adds to FRONT of arrows array
-  currArrow = arrows[0];
+var addBanana = function() {
+  bananas.unshift(new Banana()); // unshift adds to FRONT of arrows array
+  currBanana = bananas[0];
 }
 
 // Arrow prototype
-function Arrow() {
+function Banana() {
   this.x = shootingCirc.x;
   this.y = shootingCirc.y;
-  this.arrowTipCoords = {
+  this.bananaTipCoords = {
     x: this.x+20,
     y: this.y
   };
@@ -24,7 +23,7 @@ function Arrow() {
   this.speed = 0;
   this.firing = false;
 }
-Arrow.prototype.fireArrow = function() {
+Banana.prototype.fireBanana = function() {
   if (mousePos && !this.firing) {
     this.speed = Math.min(shootingCirc.r,
                  distBetween(shootingCirc, mousePos)) / speedMod;
@@ -34,9 +33,9 @@ Arrow.prototype.fireArrow = function() {
   }
   board.changeTurn();
 }
-Arrow.prototype.calcTrajectory = function() {
+Banana.prototype.calcTrajectory = function() {
   if (this.y >= board.ground && !this.firing) {
-    arrows.splice(1, 1);
+    bananas.splice(1, 1);
     if (board.playerTurn === 1) {
       alert(`Turn change! Player 1 to Player 2!`);
       board.playerTurn = 2;
@@ -46,7 +45,7 @@ Arrow.prototype.calcTrajectory = function() {
       board.playerTurn = 1;
       board.takeTurn();
     }
-    addArrow();
+    addBanana();
   }
   if (this.y <= board.ground && this.firing) {
     this.velY += gravity;
@@ -58,17 +57,17 @@ Arrow.prototype.calcTrajectory = function() {
     this.firing = false;
   }
 };
-Arrow.prototype.calcArrowHead = function() {
+Banana.prototype.calcArrowHead = function() {
   if (this.firing) {
     var angle = Math.atan2(this.velX, this.velY);
-  } else if (mousePos && this == currArrow) {
+  } else if (mousePos && this == currBanana) {
     var angle = Math.PI/2 - angleBetween(mousePos, shootingCirc);
   } else return;
 
-  this.arrowTipCoords.x = this.x + 20*Math.sin(angle);
-  this.arrowTipCoords.y = this.y + 20*Math.cos(angle);
+  this.bananaTipCoords.x = this.x + 20*Math.sin(angle);
+  this.bananaTipCoords.y = this.y + 20*Math.cos(angle);
 };
-Arrow.prototype.drawArrow = function() {
+Banana.prototype.drawBanana = function() {
   this.calcTrajectory();
   this.calcArrowHead();
   ct.drawImage(imgBanana, this.x-15, this.y-15, 25, 25);

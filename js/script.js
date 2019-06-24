@@ -1,20 +1,22 @@
+let player1 = new Gorilla(355, 1);
+let player2 = new Gorilla(355, 2);
 let ct;
 let canvas = document.getElementById('canvas');
 let gravity = 0.4;
 let windSpeed = 0.0;
 let drawnBack = false;
-let firedArrow = false;
-let currArrow;
+let firedBanana = false;
+let currBanana;
 let drawBackCirc;
 let shootingCirc;
-// let faixas = [];
-// let obstaculos = [];
+let board;
 
 window.onload = function () {
   ct = canvas.getContext('2d');
   let startButton = document.getElementById("start-button");
   let restartButton = document.getElementById('restart-button');;
   startButton.onclick = function () {
+    board = new Board();
     board.start();
     main();
     startButton.removeAttribute('id');
@@ -26,204 +28,6 @@ window.onload = function () {
     }
   };
 }
-
-let board = {
-  frames: 0,
-  start: function () {
-    ct.width = 1200;
-    ct.height = 600;
-    this.clear();
-    this.drawBoard();
-    this.points = 0;
-    this.ground = 400;
-    this.groundThickness = 2;
-    this.frames = 0;
-    this.playerTurn = 1;
-    board.takeTurn();
-    addArrow();
-    currArrow = arrows[0];
-  },
-  restart: function() {
-    if (confirm('Are you sure you want to restart?')) {
-      player1 = new Component(355, 1);
-      player2 = new Component(355, 2);
-      this.start();
-    }
-  },
-  clearEnd: function () {
-    if (this.interval !== undefined) {
-      clearInterval(this.interval);
-      // alert('Game restarting!');
-    }
-    this.frames = 0;
-    this.points = 0;
-    ct.clearRect(0, 0, ct.width, ct.height);
-    player1 = new Component(340, 1);
-    player2 = new Component(340, 2);
-    // faixas = [];
-  },
-  clear: function () {
-    ct.clearRect(0, 0, ct.width, ct.height);
-  },
-  stop: function () {
-    clearInterval(this.interval);
-    ct.clearRect(0, 0, 1200, 600);
-    ct.fillStyle = 'black';
-    ct.fillRect(0, 0, 1200, 600);
-    ct.fill();
-    ct.fillStyle = 'red';
-    ct.font = '50px Arial'
-    ct.fillText('Game Over!', 150, 100);
-    // ct.fillStyle = 'white';
-    // ct.fillText(`Your final score: ${this.points}`, 100, 150);
-    // ct.fill();
-  },
-  drawBoard: function () {
-    ct.beginPath();
-    ct.fillStyle = 'rgba(3, 11, 124, 0.6)';
-    ct.fillRect(0, 0, 1200, 400);
-    ct.fill();
-    ct.closePath();
-
-    ct.beginPath();
-    ct.fillStyle = '#454545';
-    ct.fillRect(0, this.ground, 1200, this.groundThickness);
-    ct.fill();
-    ct.closePath();
-
-    ct.beginPath();
-    ct.fillStyle = '#545454';
-    ct.fillRect(0, this.ground + this.groundThickness, 1200, 600);
-    ct.fill();
-    ct.closePath();
-
-    ct.fillStyle = '#FFF';
-    ct.fillText(this.frames, 10, 10);
-  },
-  takeTurn: function () {
-    if (this.playerTurn === 1) {
-      drawBackCirc = player1.drawbackCircle;
-      shootingCirc = player1.shootingCircle;
-      player1.drawShootingCircle();
-    } else if (this.playerTurn === 2) {
-      drawBackCirc = player2.drawbackCircle;
-      shootingCirc = player2.shootingCircle;
-      player2.drawShootingCircle();
-    }
-  },
-  changeTurn: function() {
-    if (this.playerTurn === 1)
-      this.playerNumber = 2;
-    else
-      this.playerNumber = 1;
-  }
-  // score: function() {
-  //   if (this.frames % 5 === 0)
-  //     this.points++;
-  //   ct.font = "18px arial";
-  //   ct.fillStyle = "black";
-  //   ct.fillText("Score: " + this.points, 10, 20);
-  // }
-};
-
-class Component {
-  constructor(y, playerNumber) {
-    this.y = y;
-    this.playerNumber = playerNumber;
-    this.width = 50;
-    this.height = 50;
-    this.img = document.getElementById('temp-asset');
-    this.img2 = document.getElementById('temp-asset-player2');
-
-    if (this.playerNumber === 1) {
-      this.x = Math.floor(Math.random() * 300);
-    } else {
-      this.x = Math.floor((Math.random() * 300) + 860);
-    }
-    this.shootingCircle = {
-      x: this.x,
-      y: this.y - 120,
-      r: 75
-    };
-
-    this.drawbackCircle = {
-      x: this.x,
-      y: this.y - 120,
-      r: 10
-    };
-  }
-
-  update() {
-    // if (this.player) {
-    // this.drawPlayer(this.x, this.y);
-    // } else {
-    //   ct.fillStyle = 'red'
-    //   ct.fillRect(this.x, this.y, this.width, this.height);
-    // }
-  }
-
-  drawShootingCircle() {
-    // if (this.playerNumber === 1) {
-    //   if (this.shootingCircle.shootX - 150 < 0) {
-    //     this.shootingCircle.shootX = 150;
-    //   }
-    // } else if (this.playerNumber === 2) {
-    //   if (this.shootingCircle.shootX + 150 > 1200) {
-    //     this.shootingCircle.shootX = 1050;
-    //   }
-    // }
-    if (this.playerNumber === 1) {
-      this.shootingCircle.x = this.x+25;
-      this.drawbackCircle.x = this.x+25;
-      this.shootingCircle.y = this.y+25;
-      this.drawbackCircle.y = this.y+25;
-    } else if (this.playerNumber === 2) {
-      this.shootingCircle.x = this.x+25;
-      this.drawbackCircle.x = this.x+25;
-      this.shootingCircle.y = this.y+25;
-      this.drawbackCircle.y = this.y+25;
-    }
-    // ct.beginPath();
-    // ct.arc(this.shootingCircle.x, this.shootingCircle.y, this.shootingCircle.r, 0, 2 * Math.PI);
-    // ct.strokeStyle = 'rgba(0, 0, 0, 0.8)';
-    // ct.stroke();
-    // // ct.beginPath();
-    // ct.arc(this.drawbackCircle.drawX, this.drawbackCircle.drawY, this.drawbackCircle.r, 0, 2 * Math.PI);
-    // ct.stroke();
-  }
-
-  drawPlayer(x, y) {
-    if (this.playerNumber === 2) {
-      ct.drawImage(this.img2, x, y, 50, 50);
-    } else {
-      ct.drawImage(this.img, x, y, 50, 50);
-    }
-  }
-
-  left() {
-    return this.x;
-  }
-  right() {
-    return this.x + this.width;
-  }
-  top() {
-    return this.y;
-  }
-  bottom() {
-    return this.y + this.height;
-  }
-  crashWith(obstacle) {
-    // if (obstacle.y >= player.top() - 10) {
-    //   if ((player.left() > obstacle.left() || player.right() > obstacle.left()) &&
-    //   (player.left() < obstacle.right() || player.right() < obstacle.right())) {
-    //     return true;
-    //   }
-    // }
-  }
-}
-
-let player1 = new Component(355, 1);
-let player2 = new Component(355, 2);
 
 const updateGameArea = () => {
   // board.drawBoard();
@@ -349,10 +153,10 @@ let isInCircle = function (mousePos) {
   else return false;
 }
 
-let isFiredArrow = function () {
+let isFiredBanana = function () {
   if (mousePos && drawnBack && mouseUp) {
     drawnBack = false;
-    firedArrow = true;
+    firedBanana = true;
   }
 }
 
@@ -368,10 +172,10 @@ let isDrawnBack = function () {
 let update = function () {
   board.frames += 1;
   isDrawnBack();
-  isFiredArrow();
-  if (firedArrow) {
-    currArrow.fireArrow();
-    firedArrow = false;
+  isFiredBanana();
+  if (firedBanana) {
+    currBanana.fireBanana();
+    firedBanana = false;
   }
   // clear the canvas
   ct.clearRect(0, 0, 1200, 600);
@@ -383,7 +187,7 @@ let render = function () {
   player1.drawPlayer(player1.x, player1.y);
   player2.drawPlayer(player2.x, player2.y);
   drawAimer();
-  arrows[0].drawArrow();
+  bananas[0].drawBanana();
   board.takeTurn();
 }
 
