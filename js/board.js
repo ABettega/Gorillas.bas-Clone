@@ -4,8 +4,6 @@ class Board {
     this.speedMod = 4;
     this.gravity = 0.4;
     this.windSpeed = 0.0;
-    this.windReadable = `0 m/s`;
-    this.gravityReadable = `9,80 m/s²`;
   }
   
   start() {
@@ -44,11 +42,7 @@ class Board {
     ct.fillText(`Game Over! Winner is Player ${this.gameWinner}`, 150, 100);
   }
   drawBoard() {
-    ct.beginPath();
-    ct.fillStyle = 'rgba(3, 11, 124, 0.6)';
-    ct.fillRect(0, 0, 1200, 400);
-    ct.fill();
-    ct.closePath();
+    ct.drawImage(backdrop, 0, 0, 1200, 600);
 
     ct.beginPath();
     ct.fillStyle = '#454545';

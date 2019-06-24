@@ -9,6 +9,7 @@ let drawBackCirc;
 let shootingCirc;
 let board;
 let animationFrame;
+let backdrop = document.getElementById('backdrop');
 
 window.onload = function () {
   ct = canvas.getContext('2d');
