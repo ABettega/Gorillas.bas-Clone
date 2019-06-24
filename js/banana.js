@@ -31,24 +31,25 @@ class Banana {
       this.velY = Math.sin(angleBetween(mousePos, shootingCirc)) * this.speed;
       this.firing = true;
     }
-    board.changeTurn();
   }
   calcTrajectory() {
     if (this.y >= board.ground && !this.firing) {
       bananas.splice(1, 1);
-      if (board.playerTurn === 1) {
-        // alert(`Turn change! Player 1 to Player 2!`);
-        board.playerTurn = 2;
-        board.takeTurn();
-      } else {
-        // alert(`Turn change! Player 2 to Player 1!`);
-        board.playerTurn = 1;
-        board.takeTurn();
-      }
+      board.changeTurn();
+      // if (board.playerTurn === 1) {
+      //   // alert(`Turn change! Player 1 to Player 2!`);
+      //   board.playerTurn = 2;
+      //   board.takeTurn();
+      // } else {
+      //   // alert(`Turn change! Player 2 to Player 1!`);
+      //   board.playerTurn = 1;
+      //   board.takeTurn();
+      // }
       addBanana();
     }
     if (this.y <= board.ground && this.firing) {
       this.velY += board.gravity;
+      this.velX += board.windSpeed;
       this.x += this.velX;
       this.y += this.velY;
     } else {
@@ -74,17 +75,17 @@ class Banana {
     ct.drawImage(imgBanana, this.x-15, this.y-15, this.width, this.height);
     if (board.playerTurn === 1) {
       if(this.crashWith(player2)) {
+        board.gameWinner = 1;
         setTimeout(function() {
           player2.alive = false;
         }, 100);
-        // board.stop();
       }
     } else {
       if (this.crashWith(player1)) {
+        board.gameWinner = 2;
         setTimeout(function() {
           player1.alive = false;
         }, 100);
-        // board.stop();
       }
     }
   };

@@ -7,6 +7,7 @@ class Board {
   }
   
   start() {
+    this.gameWinner = 0;
     player1 = new Gorilla(355, 1);
     player2 = new Gorilla(355, 2);
     ct.width = 1200;
@@ -24,13 +25,7 @@ class Board {
   };
   restart() {
     if (confirm('Are you sure you want to restart?')) {
-      // this.start();
       location.reload();
-      // cancelAnimationFrame(animationFrame);
-      // this.stop();
-      // player1 = new Gorilla(355, 1);
-      // player2 = new Gorilla(355, 2);
-      // main();
     }
   }
   clear() {
@@ -44,7 +39,7 @@ class Board {
     ct.fill();
     ct.fillStyle = 'red';
     ct.font = '50px Arial'
-    ct.fillText('Game Over!', 150, 100);
+    ct.fillText(`Game Over! Winner is Player ${this.gameWinner}`, 150, 100);
   }
   drawBoard() {
     ct.beginPath();
@@ -67,7 +62,7 @@ class Board {
 
     ct.font = '10px Arial'
     ct.fillStyle = '#FFF';
-    ct.fillText(this.frames, 2, 10);
+    ct.fillText(this.windSpeed, 2, 10);
   }
   takeTurn() {
     if (this.playerTurn === 1) {
@@ -81,9 +76,19 @@ class Board {
     }
   }
   changeTurn() {
-    if (this.playerTurn === 1)
-      this.playerNumber = 2;
-    else
-      this.playerNumber = 1;    
+    if (this.playerTurn === 1) {
+      this.playerTurn = 2;
+      this.takeTurn();
+    } else {
+      this.playerTurn = 1;
+      this.takeTurn();
+    }
+    this.windSpeed = parseFloat(((Math.random() * 0.8) - 0.4).toFixed(2));
+  }
+  moonGravity() {
+    this.gravity = 0.2;
+  }
+  jupiterGravity() {
+    this.gravity = 0.6;
   }
 };
