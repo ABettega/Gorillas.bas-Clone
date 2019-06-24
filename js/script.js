@@ -2,14 +2,28 @@ let ct;
 let canvas = document.getElementById('canvas');
 let gravity = 0.4;
 let windSpeed = 0.0;
+let drawnBack = false;
+let firedArrow = false;
+let currArrow;
+let drawBackCirc;
+let shootingCirc;
 // let faixas = [];
 // let obstaculos = [];
 
 window.onload = function () {
   ct = canvas.getContext('2d');
-  document.getElementById("start-button").onclick = function () {
-    board.clearEnd();
+  let startButton = document.getElementById("start-button");
+  let restartButton = document.getElementById('restart-button');;
+  startButton.onclick = function () {
     board.start();
+    main();
+    startButton.removeAttribute('id');
+    startButton.setAttribute('id', 'restart-button');
+    restartButton = document.getElementById('restart-button');
+    restartButton.innerHTML = ('Restart Game');
+    restartButton.onclick = function() {
+      board.restart();
+    }
   };
 }
 
@@ -20,12 +34,21 @@ let board = {
     ct.height = 600;
     this.clear();
     this.drawBoard();
-    this.interval = setInterval(updateGameArea, 20);
     this.points = 0;
     this.ground = 400;
-    this.groundThickness = 3;
+    this.groundThickness = 2;
     this.frames = 0;
     this.playerTurn = 1;
+    board.takeTurn();
+    addArrow();
+    currArrow = arrows[0];
+  },
+  restart: function() {
+    if (confirm('Are you sure you want to restart?')) {
+      player1 = new Component(355, 1);
+      player2 = new Component(355, 2);
+      this.start();
+    }
   },
   clearEnd: function () {
     if (this.interval !== undefined) {
@@ -33,7 +56,7 @@ let board = {
       // alert('Game restarting!');
     }
     this.frames = 0;
-    this.points = 0; 
+    this.points = 0;
     ct.clearRect(0, 0, ct.width, ct.height);
     player1 = new Component(340, 1);
     player2 = new Component(340, 2);
@@ -77,12 +100,22 @@ let board = {
     ct.fillStyle = '#FFF';
     ct.fillText(this.frames, 10, 10);
   },
-  takeTurn: function() {
+  takeTurn: function () {
     if (this.playerTurn === 1) {
+      drawBackCirc = player1.drawbackCircle;
+      shootingCirc = player1.shootingCircle;
       player1.drawShootingCircle();
     } else if (this.playerTurn === 2) {
+      drawBackCirc = player2.drawbackCircle;
+      shootingCirc = player2.shootingCircle;
       player2.drawShootingCircle();
     }
+  },
+  changeTurn: function() {
+    if (this.playerTurn === 1)
+      this.playerNumber = 2;
+    else
+      this.playerNumber = 1;
   }
   // score: function() {
   //   if (this.frames % 5 === 0)
@@ -93,33 +126,14 @@ let board = {
   // }
 };
 
-
-// class Banana {
-//   constructor() {
-//     this.width = 5;
-//     this.height = 20;
-//     this.color = 'white';
-//     this.x = 197;
-//     this.y = -20;
-//   }
-
-//   update() {
-//     ct.fillStyle = this.color;
-//     ct.fillRect(this.x, this.y, this.width, this.height);
-//   }
-
-//   newPos() {
-//     this.y += this.speedY;
-//   }
-// };
-
 class Component {
   constructor(y, playerNumber) {
     this.y = y;
     this.playerNumber = playerNumber;
-    this.width = 40;
-    this.height = 60;
+    this.width = 50;
+    this.height = 50;
     this.img = document.getElementById('temp-asset');
+    this.img2 = document.getElementById('temp-asset-player2');
 
     if (this.playerNumber === 1) {
       this.x = Math.floor(Math.random() * 300);
@@ -127,15 +141,15 @@ class Component {
       this.x = Math.floor((Math.random() * 300) + 860);
     }
     this.shootingCircle = {
-      shootX: this.x,
-      shootY: this.y - 120,
+      x: this.x,
+      y: this.y - 120,
       r: 75
     };
 
     this.drawbackCircle = {
-      draw: this.x,
-      drawY: this.y - 120,
-      r: 2
+      x: this.x,
+      y: this.y - 120,
+      r: 10
     };
   }
 
@@ -159,23 +173,31 @@ class Component {
     //   }
     // }
     if (this.playerNumber === 1) {
-      this.shootingCircle.shootX = 150;
-      this.drawbackCircle.drawX = 150;
+      this.shootingCircle.x = this.x+25;
+      this.drawbackCircle.x = this.x+25;
+      this.shootingCircle.y = this.y+25;
+      this.drawbackCircle.y = this.y+25;
     } else if (this.playerNumber === 2) {
-      this.shootingCircle.shootX = 1050;
-      this.drawbackCircle.drawY = 1050;
+      this.shootingCircle.x = this.x+25;
+      this.drawbackCircle.x = this.x+25;
+      this.shootingCircle.y = this.y+25;
+      this.drawbackCircle.y = this.y+25;
     }
-    ct.beginPath();
-    ct.arc(this.shootingCircle.shootX, this.shootingCircle.shootY, this.shootingCircle.r, 0, 2 * Math.PI);
-    ct.strokeStyle = 'rgba(0, 0, 0, 0.8)';
-    ct.stroke();
-    ct.beginPath();
-    ct.arc(this.drawbackCircle.drawX, this.drawbackCircle.drawY, this.drawbackCircle.r, 0, 2 * Math.PI);
-    ct.stroke();
+    // ct.beginPath();
+    // ct.arc(this.shootingCircle.x, this.shootingCircle.y, this.shootingCircle.r, 0, 2 * Math.PI);
+    // ct.strokeStyle = 'rgba(0, 0, 0, 0.8)';
+    // ct.stroke();
+    // // ct.beginPath();
+    // ct.arc(this.drawbackCircle.drawX, this.drawbackCircle.drawY, this.drawbackCircle.r, 0, 2 * Math.PI);
+    // ct.stroke();
   }
 
   drawPlayer(x, y) {
-    ct.drawImage(this.img, x, y, 40, 60);
+    if (this.playerNumber === 2) {
+      ct.drawImage(this.img2, x, y, 50, 50);
+    } else {
+      ct.drawImage(this.img, x, y, 50, 50);
+    }
   }
 
   left() {
@@ -200,15 +222,12 @@ class Component {
   }
 }
 
-let player1 = new Component(340, 1);
-let player2 = new Component(340, 2);
+let player1 = new Component(355, 1);
+let player2 = new Component(355, 2);
 
 const updateGameArea = () => {
-  board.clear();
-  board.drawBoard();
-  player1.drawPlayer(player1.x, player1.y);
-  player2.drawPlayer(player2.x, player2.y);
-  board.takeTurn();
+  // board.drawBoard();
+  // requestAnimationFrame(board.drawBoard);
   // player1.drawShootingCircle();
   // player2.drawShootingCircle();
   // updateFaixas();
@@ -276,32 +295,111 @@ const updateGameArea = () => {
 //   }
 
 /*
-* Event Listeners *
-*/
+ * Event Listeners *
+ */
 let mousePos;
 let mouseDown = false;
 let mouseUp = false;
 
-addEventListener('mousemove', function(evt) {
+addEventListener('mousemove', function (evt) {
   mousePos = getMousePos(canvas, evt);
-});
-
-addEventListener('mousedown', function(evt) {
+}, false);
+addEventListener('mousedown', function (evt) {
   mousePos = getMousePos(canvas, evt);
   mouseDown = true;
   mouseUp = false;
-});
-
-addEventListener('mouseup', function(evt) {
+}, false);
+addEventListener('mouseup', function (evt) {
   mousePos = getMousePos(canvas, evt);
   mouseDown = false;
   mouseUp = true;
-});
+}, false);
 
 function getMousePos(canvas, evt) {
-  let rect = canvas.getBoundingClientRect();
+  const rect = canvas.getBoundingClientRect();
   return {
-    x: evt.clientX,
-    y: evt.clientY
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top,
+  };
+}
+
+var distBetween = function(p1, p2) {
+  return Math.sqrt( Math.pow((p2.x-p1.x), 2)
+  + Math.pow((p2.y-p1.y), 2) );
+}
+
+let angleBetween = function (p1, p2) {
+  return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+}
+
+let getAimCoords = function (mousePos) {
+  let angle = Math.PI / 2 - angleBetween(mousePos, shootingCirc);
+  let distance = Math.min(distBetween(shootingCirc, mousePos), shootingCirc.r);
+  let x = shootingCirc.x + distance * Math.sin(angle);
+  let y = shootingCirc.y + distance * Math.cos(angle);
+  return {
+    x: x,
+    y: y
+  };
+}
+
+let isInCircle = function (mousePos) {
+  let distFromCenter = distBetween(drawBackCirc, mousePos);
+  if (distFromCenter < drawBackCirc.r) return true;
+  else return false;
+}
+
+let isFiredArrow = function () {
+  if (mousePos && drawnBack && mouseUp) {
+    drawnBack = false;
+    firedArrow = true;
   }
+}
+
+let isDrawnBack = function () {
+  if (mousePos && isInCircle(mousePos)) {
+    if (mouseDown){
+      drawnBack = true;
+    } 
+    else if (mouseUp) drawnBack = false;
+  }
+}
+
+let update = function () {
+  board.frames += 1;
+  isDrawnBack();
+  isFiredArrow();
+  if (firedArrow) {
+    currArrow.fireArrow();
+    firedArrow = false;
+  }
+  // clear the canvas
+  ct.clearRect(0, 0, 1200, 600);
+}
+
+let render = function () {
+  // if(mousePos) writeInfo(mousePos);
+  board.drawBoard();
+  player1.drawPlayer(player1.x, player1.y);
+  player2.drawPlayer(player2.x, player2.y);
+  drawAimer();
+  arrows[0].drawArrow();
+  board.takeTurn();
+}
+
+let drawAimer = function () {
+  if (drawnBack) {
+    aimCoords = getAimCoords(mousePos);
+    ct.beginPath();
+    ct.moveTo(aimCoords.x, aimCoords.y);
+    ct.lineTo(shootingCirc.x, shootingCirc.y);
+    ct.strokeStyle = "rgba(0,0,0,1)";
+    ct.stroke();
+  }
+}
+
+let main = function () {
+  update();
+  render();
+  requestAnimationFrame(main);
 }
