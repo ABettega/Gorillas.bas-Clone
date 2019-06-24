@@ -4,6 +4,7 @@ class Board {
     this.speedMod = 4;
     this.gravity = 0.4;
     this.windSpeed = 0.0;
+    this.accruedWidth = 0;
   }
   
   start() {
@@ -22,6 +23,7 @@ class Board {
     board.takeTurn();
     addBanana();
     currBanana = bananas[0];
+    this.buildingCreator();
   };
   restart() {
     if (confirm('Are you sure you want to restart?')) {
@@ -112,5 +114,13 @@ class Board {
     let weighted = weightedRandom(set);
     weighted = (weighted - 0.4) * 0.3;
     this.gravity = 0.4 + parseFloat((weighted).toFixed(2));
+  }
+
+  buildingCreator() {
+    console.log('entrou 1')
+    while (this.accruedWidth < 1200) {
+      console.log('entrou 2')
+      buildings.push(new Building(this.accruedWidth));
+    }
   }
 };
