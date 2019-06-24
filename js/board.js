@@ -4,6 +4,8 @@ class Board {
     this.speedMod = 4;
     this.gravity = 0.4;
     this.windSpeed = 0.0;
+    this.windReadable = `0 m/s`;
+    this.gravityReadable = `9,80 m/s²`;
   }
   
   start() {
@@ -62,7 +64,8 @@ class Board {
 
     ct.font = '10px Arial'
     ct.fillStyle = '#FFF';
-    ct.fillText(this.windSpeed, 2, 10);
+    ct.fillText(`Wind Speed: ${this.windSpeed}`, 2, 10);
+    ct.fillText(`Gravity: ${this.gravity}`, 2, 20);
   }
   takeTurn() {
     if (this.playerTurn === 1) {
@@ -83,12 +86,37 @@ class Board {
       this.playerTurn = 1;
       this.takeTurn();
     }
-    this.windSpeed = parseFloat(((Math.random() * 0.8) - 0.4).toFixed(2));
+    this.windSpeedChanger();
+    this.gravityChanger();
   }
   moonGravity() {
     this.gravity = 0.2;
   }
   jupiterGravity() {
     this.gravity = 0.6;
+  }
+  windSpeedChanger() {
+    let set = {0: 0.04, 
+      0.1: 0.08, 
+      0.2: 0.12, 
+      0.3: 0.16, 
+      0.4: 0.2,
+      0.5: 0.16,
+      0.6: 0.12,
+      0.7: 0.08,
+      0.8: 0.04};
+    let weighted = weightedRandom(set);
+    this.windSpeed = parseFloat((weighted - 0.4).toFixed(2));
+    // if ()
+  }
+  gravityChanger() {
+    let set = {0: 0.1,
+      0.2: 0.1,
+      0.4: 0.7,
+      0.6: 0.05,
+      0.8: 0.05}
+    let weighted = weightedRandom(set);
+    weighted = (weighted - 0.4) * 0.3;
+    this.gravity = 0.4 + parseFloat((weighted).toFixed(2));
   }
 };

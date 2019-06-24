@@ -50,6 +50,15 @@ window.onload = function () {
 //     road.stop();
 //   }
 
+function weightedRandom(spec) {
+  let i, sum=0, r=Math.random();
+  console.log(r);
+  for (i in spec) {
+    sum += spec[i];
+    if (r <= sum) return i;
+  }
+}
+
 let distBetween = function(p1, p2) {
   return Math.sqrt( Math.pow((p2.x-p1.x), 2)
   + Math.pow((p2.y-p1.y), 2) );
