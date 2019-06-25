@@ -33,13 +33,14 @@ class Board {
   }
   stop() {
     cancelAnimationFrame(animationFrame);
+    soundtrack.pause();
     ct.clearRect(0, 0, 1200, 600);
     ct.fillStyle = 'black';
     ct.fillRect(0, 0, 1200, 600);
     ct.fill();
     ct.fillStyle = 'red';
     ct.font = '50px Arial'
-    ct.fillText(`Game Over! Winner is Player ${this.gameWinner}`, 150, 100);
+    ct.fillText(`Game Over! The winner is Player ${this.gameWinner}!`, 150, 100);
   }
   drawBoard() {
     ct.globalAlpha = 0.4;

@@ -4,13 +4,13 @@ let drawnBack = false;
 let board;
 let animationFrame;
 let backdrop = document.getElementById('backdrop');
-let buildings = [];
 
 window.onload = function () {
   ct = canvas.getContext('2d');
   let startButton = document.getElementById("start-button");
   let restartButton = document.getElementById('restart-button');;
   startButton.onclick = function () {
+    soundtrack.play();
     board = new Board();
     board.start();
     main();

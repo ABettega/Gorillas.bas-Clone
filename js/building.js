@@ -1,3 +1,5 @@
+let buildings = [];
+
 class Building {
   constructor(x) {
     this.x = x;
@@ -5,9 +7,10 @@ class Building {
     this.width = 200 - (Math.floor(Math.random() * 100));
     board.accruedWidth += this.width;
 
-    let randomColor = Math.floor(Math.random())
-    this.color = 'rgba(139,0,0,1)';
-    this.alpha = 'rgba(80, 0, 0, 1)';
+    // this.randomColor = this.randomColorPicker();
+    this.color = 'rgba(26,39,62,1)';
+    // this.color = 'rgba(139,0,0,1)';
+    this.alpha = 'rgba(69, 69, 69, 1)';
   }
   left() {
     return this.x;
@@ -21,16 +24,12 @@ class Building {
   bottom() {
     return 600;
   }
-  randomColorPicker() {
-    let set = {'rgba(139,0,0,1)': 0.15,
-    'rgba(0,139,0,1)': 0.15,
-    'rgba(0,0,139,1)': 0.15,
-    'rgba(139,139,0,1)': 0.15,
-    'rgba(0,139,139,1)': 0.15,
-    'rgba(139,0,139,1)': 0.15,
-    'rgba(139,139,139,1)': 0.1
-    }
-    let weighted = weightedRandom(set);
-    return weighted;
-  }
+  // randomColorPicker() {
+  //   let set = {'red': 0.25,
+  //   'blue': 0.25,
+  //   'black': 0.25,
+  //   'grey': 0.25}
+  //   let weighted = weightedRandom(set);
+  //   return weighted;
+  // }
 }
