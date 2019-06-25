@@ -81,7 +81,6 @@ class Gorilla {
     if (this.playerNumber === 2) {
       this.x = building.right() - 50;
     }
-    // this.x = building.x + Math.random() * (building.width - 50)
   }
 
   left() {

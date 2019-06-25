@@ -3,7 +3,7 @@ soundtrack.loop = true;
 soundtrack.volume = 0.3;
 
 let explosionMinor = new Audio('sounds/explosion.wav');
-explosionMinor.volume = 0.6;
+explosionMinor.volume = 0.1;
 
 let explosionDeath = new Audio('sounds/explosionBig.mp3');
 explosionDeath.volume = 1;
