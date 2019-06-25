@@ -4,7 +4,6 @@ let drawnBack = false;
 let board;
 let animationFrame;
 let backdrop = document.getElementById('backdrop');
-let buildings = [];
 
 window.onload = function () {
   ct = canvas.getContext('2d');
