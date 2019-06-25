@@ -1,9 +1,13 @@
 let bananas = [];
-let imgBanana = document.getElementById('temp-banana');
+let imgBanana1 = document.getElementById('banana-frame1');
+let imgBanana4 = document.getElementById('banana-frame2');
+let imgBanana2 = document.getElementById('banana-frame3');
+let imgBanana3 = document.getElementById('banana-frame4');
 let firedBanana = false;
 let currBanana;
+let frameCount = 0;
 
-let addBanana = function() {
+let addBanana = function () {
   bananas.unshift(new Banana());
   currBanana = bananas[0];
 }
@@ -28,7 +32,7 @@ class Banana {
   fireBanana() {
     if (mousePos && !this.firing) {
       this.speed = Math.min(shootingCirc.r,
-                   distBetween(shootingCirc, mousePos)) / board.speedMod;
+        distBetween(shootingCirc, mousePos)) / board.speedMod;
       this.velX = Math.cos(angleBetween(mousePos, shootingCirc)) * this.speed;
       this.velY = Math.sin(angleBetween(mousePos, shootingCirc)) * this.speed;
       this.firing = true;
@@ -60,30 +64,54 @@ class Banana {
     if (this.firing) {
       angle = Math.atan2(this.velX, this.velY);
     } else if (mousePos && this == currBanana) {
-      angle = Math.PI/2 - angleBetween(mousePos, shootingCirc);
+      angle = Math.PI / 2 - angleBetween(mousePos, shootingCirc);
     } else return;
-  
-    this.bananaTipCoords.x = this.x + 20*Math.sin(angle);
-    this.bananaTipCoords.y = this.y + 20*Math.cos(angle);
+
+    this.bananaTipCoords.x = this.x + 20 * Math.sin(angle);
+    this.bananaTipCoords.y = this.y + 20 * Math.cos(angle);
   };
   drawBanana() {
     this.calcTrajectory();
     this.calcBananaAngle();
-    ct.drawImage(imgBanana, this.x-15, this.y-15, this.width, this.height);
+    if (!this.firing) {
+      ct.drawImage(imgBanana1, this.x - 15, this.y - 15, this.width, this.height);
+    } else {
+      switch (frameCount % 4) {
+        case 0:
+          ct.drawImage(imgBanana1, this.x - 15, this.y - 15, this.width, this.height);
+          frameCount += 1;
+          break;
+        case 1:
+          ct.drawImage(imgBanana2, this.x - 15, this.y - 15, this.width, this.height);
+          frameCount += 1;
+          break;
+        case 2:
+          ct.drawImage(imgBanana3, this.x - 15, this.y - 15, this.width, this.height);
+          frameCount += 1;
+          break;
+        case 3:
+          ct.drawImage(imgBanana4, this.x - 15, this.y - 15, this.width, this.height);
+          frameCount += 1;
+          break;
+        default:
+          ct.drawImage(imgBanana1, this.x - 15, this.y - 15, this.width, this.height);
+          break;
+      }
+    }
     for (let i = 0; i < buildings.length; i += 1) {
       this.checkCollision(buildings[i]);
     }
     if (board.playerTurn === 1) {
-      if(this.crashWith(player2)) {
+      if (this.crashWith(player2)) {
         board.gameWinner = 1;
-        setTimeout(function() {
+        setTimeout(function () {
           player2.alive = false;
         }, 100);
       }
     } else {
       if (this.crashWith(player1)) {
         board.gameWinner = 2;
-        setTimeout(function() {
+        setTimeout(function () {
           player1.alive = false;
         }, 100);
       }
@@ -103,17 +131,17 @@ class Banana {
   }
   crashWith(gorilla) {
     return (
-      this.bottom() > gorilla.top()
-      && this.top() < gorilla.bottom()
-      && this.right() > gorilla.left()
-      && this.left() < gorilla.right())
+      this.bottom() > gorilla.top() &&
+      this.top() < gorilla.bottom() &&
+      this.right() > gorilla.left() &&
+      this.left() < gorilla.right())
   }
   checkCollision(building) {
-    if (this.bottom() > building.top()
-      && this.top() < building.bottom()
-      && this.right() > building.left()
-      && this.left() < building.right()) {
-        this.collided = true;
-      }
+    if (this.bottom() > building.top() &&
+      this.top() < building.bottom() &&
+      this.right() > building.left() &&
+      this.left() < building.right()) {
+      this.collided = true;
+    }
   }
 }

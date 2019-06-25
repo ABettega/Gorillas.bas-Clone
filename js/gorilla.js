@@ -10,8 +10,8 @@ class Gorilla {
     this.playerNumber = playerNumber;
     this.width = 50;
     this.height = 50;
-    this.img = document.getElementById('temp-asset');
-    this.img2 = document.getElementById('temp-asset-player2');
+    this.img = document.getElementById('player');
+    this.img2 = document.getElementById('player2');
     this.alive = true;
     this.buildingSpawn = this.selectBuilding(this.playerNumber);
     this.adjustXY(this.buildingSpawn);
