@@ -1,3 +1,5 @@
+let buildings = [];
+
 class Building {
   constructor(x) {
     this.x = x;
