@@ -116,6 +116,7 @@ let update = function () {
 
 let render = function () {
   board.drawBoard();
+  board.buildingPainter();
   player1.drawPlayer(player1.x, player1.y);
   player2.drawPlayer(player2.x, player2.y);
   drawAimer();

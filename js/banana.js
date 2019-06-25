@@ -2,11 +2,10 @@ let bananas = [];
 let imgBanana = document.getElementById('temp-banana');
 
 let addBanana = function() {
-  bananas.unshift(new Banana()); // unshift adds to FRONT of arrows array
+  bananas.unshift(new Banana());
   currBanana = bananas[0];
 }
 
-// Banana class
 class Banana {
   constructor() {
     this.x = shootingCirc.x;
@@ -21,6 +20,7 @@ class Banana {
     this.firing = false;
     this.width = 25;
     this.height = 25;
+    this.collided = false;
     // this.damage = 1;
   };
   fireBanana() {
@@ -33,21 +33,13 @@ class Banana {
     }
   }
   calcTrajectory() {
-    if (this.y >= board.ground && !this.firing) {
+    if (this.collided && !this.firing) {
       bananas.splice(1, 1);
       board.changeTurn();
-      // if (board.playerTurn === 1) {
-      //   // alert(`Turn change! Player 1 to Player 2!`);
-      //   board.playerTurn = 2;
-      //   board.takeTurn();
-      // } else {
-      //   // alert(`Turn change! Player 2 to Player 1!`);
-      //   board.playerTurn = 1;
-      //   board.takeTurn();
-      // }
       addBanana();
     }
-    if (this.y <= board.ground && this.firing) {
+    // if (this.y <= board.ground && this.firing) {
+    if (!this.collided && this.firing) {
       this.velY += board.gravity;
       this.velX += board.windSpeed;
       this.x += this.velX;
@@ -73,6 +65,9 @@ class Banana {
     this.calcTrajectory();
     this.calcBananaAngle();
     ct.drawImage(imgBanana, this.x-15, this.y-15, this.width, this.height);
+    for (let i = 0; i < buildings.length; i += 1) {
+      this.checkCollision(buildings[i]);
+    }
     if (board.playerTurn === 1) {
       if(this.crashWith(player2)) {
         board.gameWinner = 1;
@@ -107,5 +102,14 @@ class Banana {
       && this.top() < gorilla.bottom()
       && this.right() > gorilla.left()
       && this.left() < gorilla.right())
+  }
+  checkCollision(building) {
+    if (this.bottom() > building.top()
+      && this.top() < building.bottom()
+      && this.right() > building.left()
+      && this.left() < building.right()) {
+        console.log('colidiu caraio')
+        this.collided = true;
+      }
   }
 }

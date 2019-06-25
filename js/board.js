@@ -9,8 +9,8 @@ class Board {
   
   start() {
     this.gameWinner = 0;
-    player1 = new Gorilla(355, 1);
-    player2 = new Gorilla(355, 2);
+    player1 = new Gorilla(50, 100, 1);
+    player2 = new Gorilla(1150, 100, 2);
     ct.width = 1200;
     ct.height = 600;
     this.clear();
@@ -46,17 +46,17 @@ class Board {
   drawBoard() {
     ct.drawImage(backdrop, 0, 0, 1200, 600);
 
-    ct.beginPath();
-    ct.fillStyle = '#454545';
-    ct.fillRect(0, this.ground, 1200, this.groundThickness);
-    ct.fill();
-    ct.closePath();
+    // ct.beginPath();
+    // ct.fillStyle = '#454545';
+    // ct.fillRect(0, this.ground, 1200, this.groundThickness);
+    // ct.fill();
+    // ct.closePath();
 
-    ct.beginPath();
-    ct.fillStyle = '#545454';
-    ct.fillRect(0, this.ground + this.groundThickness, 1200, 600);
-    ct.fill();
-    ct.closePath();
+    // ct.beginPath();
+    // ct.fillStyle = '#545454';
+    // ct.fillRect(0, this.ground + this.groundThickness, 1200, 600);
+    // ct.fill();
+    // ct.closePath();
 
     ct.font = '10px Arial'
     ct.fillStyle = '#FFF';
@@ -117,10 +117,18 @@ class Board {
   }
 
   buildingCreator() {
-    console.log('entrou 1')
     while (this.accruedWidth < 1200) {
-      console.log('entrou 2')
       buildings.push(new Building(this.accruedWidth));
+    }
+  }
+  buildingPainter() {
+    for(let i = 0; i < buildings.length; i += 1) {
+      ct.fillStyle = buildings[i].color;
+      ct.fillRect(buildings[i].x, buildings[i].y, buildings[i].width, 600-buildings[i].y);
+      ct.fillStyle = buildings[i].alpha;
+      ct.fillRect(buildings[i].x, buildings[i].y, buildings[i].width, 5);
+      ct.fillRect(buildings[i].x, buildings[i].y, 5, 600-buildings[i].y);
+      ct.fillRect(buildings[i].right()-5, buildings[i].y, 5, 600-buildings[i].y);
     }
   }
 };

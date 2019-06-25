@@ -1,5 +1,6 @@
 class Gorilla {
-  constructor(y, playerNumber) {
+  constructor(x, y, playerNumber) {
+    this.x = x;
     this.y = y;
     this.playerNumber = playerNumber;
     this.width = 50;
@@ -7,12 +8,12 @@ class Gorilla {
     this.img = document.getElementById('temp-asset');
     this.img2 = document.getElementById('temp-asset-player2');
     this.alive = true;
-
-    if (this.playerNumber === 1) {
-      this.x = Math.floor(Math.random() * 300);
-    } else {
-      this.x = Math.floor((Math.random() * 300) + 860);
-    }
+    
+    // if (this.playerNumber === 1) {
+    //   this.x = Math.floor(Math.random() * 300);
+    // } else {
+    //   this.x = Math.floor((Math.random() * 300) + 860);
+    // }
     this.shootingCircle = {
       x: this.x,
       y: this.y - 120,
