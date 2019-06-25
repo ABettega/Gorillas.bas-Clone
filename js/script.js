@@ -10,6 +10,7 @@ window.onload = function () {
   let startButton = document.getElementById("start-button");
   let restartButton = document.getElementById('restart-button');;
   startButton.onclick = function () {
+    soundtrack.play();
     board = new Board();
     board.start();
     main();

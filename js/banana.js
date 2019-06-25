@@ -41,6 +41,7 @@ class Banana {
   calcTrajectory() {
     if (this.y > 600) {
       this.collided = true;
+      explosionMinor.play();
     }
     if (this.collided && !this.firing) {
       bananas.splice(1, 1);
@@ -98,12 +99,10 @@ class Banana {
           break;
       }
     }
-    for (let i = 0; i < buildings.length; i += 1) {
-      this.checkCollision(buildings[i]);
-    }
     if (board.playerTurn === 1) {
       if (this.crashWith(player2)) {
         board.gameWinner = 1;
+        explosionDeath.play();
         setTimeout(function () {
           player2.alive = false;
         }, 100);
@@ -111,10 +110,14 @@ class Banana {
     } else {
       if (this.crashWith(player1)) {
         board.gameWinner = 2;
+        explosionDeath.play();
         setTimeout(function () {
           player1.alive = false;
         }, 100);
       }
+    }
+    for (let i = 0; i < buildings.length; i += 1) {
+      this.checkCollision(buildings[i]);
     }
   };
   left() {
@@ -142,6 +145,9 @@ class Banana {
       this.right() > building.left() &&
       this.left() < building.right()) {
       this.collided = true;
+      if (board.gameWinner === 0) {
+        explosionMinor.play();
+      }
     }
   }
 }
