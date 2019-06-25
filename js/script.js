@@ -1,12 +1,6 @@
-let player1;
-let player2;
 let ct;
 let canvas = document.getElementById('canvas');
 let drawnBack = false;
-let firedBanana = false;
-let currBanana;
-let drawBackCirc;
-let shootingCirc;
 let board;
 let animationFrame;
 let backdrop = document.getElementById('backdrop');
@@ -43,18 +37,8 @@ window.onload = function () {
 //   }
 // };
 
-// function checkGameOver() {
-//   let crashed = obstaculos.some(function(obstacle) {
-//     return player.crashWith(obstacle);
-//   });
-
-//   if (crashed) {
-//     road.stop();
-//   }
-
 function weightedRandom(spec) {
   let i, sum=0, r=Math.random();
-  console.log(r);
   for (i in spec) {
     sum += spec[i];
     if (r <= sum) return i;
@@ -130,7 +114,8 @@ let drawAimer = function () {
     ct.beginPath();
     ct.moveTo(aimCoords.x, aimCoords.y);
     ct.lineTo(shootingCirc.x, shootingCirc.y);
-    ct.strokeStyle = "rgba(0,0,0,1)";
+    ct.lineWidth = 2;
+    ct.strokeStyle = "rgba(255,255,255,1)";
     ct.stroke();
   }
 }

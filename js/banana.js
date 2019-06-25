@@ -1,5 +1,7 @@
 let bananas = [];
 let imgBanana = document.getElementById('temp-banana');
+let firedBanana = false;
+let currBanana;
 
 let addBanana = function() {
   bananas.unshift(new Banana());
@@ -33,6 +35,9 @@ class Banana {
     }
   }
   calcTrajectory() {
+    if (this.y > 600) {
+      this.collided = true;
+    }
     if (this.collided && !this.firing) {
       bananas.splice(1, 1);
       board.changeTurn();
@@ -108,7 +113,6 @@ class Banana {
       && this.top() < building.bottom()
       && this.right() > building.left()
       && this.left() < building.right()) {
-        console.log('colidiu caraio')
         this.collided = true;
       }
   }
