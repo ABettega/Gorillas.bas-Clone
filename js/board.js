@@ -4,19 +4,19 @@ class Board {
     this.speedMod = 4;
     this.gravity = 0.4;
     this.windSpeed = 0.0;
+    this.accruedWidth = 0;
   }
   
   start() {
     this.gameWinner = 0;
-    player1 = new Gorilla(355, 1);
-    player2 = new Gorilla(355, 2);
+    this.buildingCreator();
+    player1 = new Gorilla(1);
+    player2 = new Gorilla(2);
     ct.width = 1200;
     ct.height = 600;
     this.clear();
     this.drawBoard();
     this.points = 0;
-    this.ground = 400;
-    this.groundThickness = 2;
     this.frames = 0;
     this.playerTurn = 1;
     board.takeTurn();
@@ -42,19 +42,9 @@ class Board {
     ct.fillText(`Game Over! Winner is Player ${this.gameWinner}`, 150, 100);
   }
   drawBoard() {
+    ct.globalAlpha = 0.4;
     ct.drawImage(backdrop, 0, 0, 1200, 600);
-
-    ct.beginPath();
-    ct.fillStyle = '#454545';
-    ct.fillRect(0, this.ground, 1200, this.groundThickness);
-    ct.fill();
-    ct.closePath();
-
-    ct.beginPath();
-    ct.fillStyle = '#545454';
-    ct.fillRect(0, this.ground + this.groundThickness, 1200, 600);
-    ct.fill();
-    ct.closePath();
+    ct.globalAlpha = 1;
 
     ct.font = '10px Arial'
     ct.fillStyle = '#FFF';
@@ -101,7 +91,6 @@ class Board {
       0.8: 0.04};
     let weighted = weightedRandom(set);
     this.windSpeed = parseFloat((weighted - 0.4).toFixed(2));
-    // if ()
   }
   gravityChanger() {
     let set = {0: 0.1,
@@ -112,5 +101,32 @@ class Board {
     let weighted = weightedRandom(set);
     weighted = (weighted - 0.4) * 0.3;
     this.gravity = 0.4 + parseFloat((weighted).toFixed(2));
+  }
+  buildingCreator() {
+    while (this.accruedWidth < 1200) {
+      buildings.push(new Building(this.accruedWidth));
+    }
+    let difAltura = buildings[0].y - buildings[1].y;
+    if (difAltura < 0)
+      difAltura *= -1;
+    if (difAltura > 50) {
+      buildings[1].y = buildings[0].y - 50;
+    }
+    difAltura = buildings[buildings.length-1] - buildings[buildings.length-2];
+    if (difAltura < 0)
+      difAltura *= -1;
+    if (difAltura > 50) {
+      buildings[buildings.length-2].y = buildings[buildings.length-1].y - 50;
+    }
+  }
+  buildingPainter() {
+    for(let i = 0; i < buildings.length; i += 1) {
+      ct.fillStyle = buildings[i].color;
+      ct.fillRect(buildings[i].x, buildings[i].y, buildings[i].width, 600-buildings[i].y);
+      ct.fillStyle = buildings[i].alpha;
+      ct.fillRect(buildings[i].x, buildings[i].y-5, buildings[i].width, 5);
+      ct.fillRect(buildings[i].x, buildings[i].y, 5, 600-buildings[i].y);
+      ct.fillRect(buildings[i].right()-5, buildings[i].y, 5, 600-buildings[i].y);
+    }
   }
 };

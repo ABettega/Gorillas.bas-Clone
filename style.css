@@ -1,6 +1,7 @@
 body {
   padding: 0;
   text-align: center;
+  background-color: rgba(6, 6, 22, 1);
 }
 
 .game-intro {

@@ -1,18 +1,23 @@
+let player1;
+let player2;
+let drawBackCirc;
+let shootingCirc;
+
 class Gorilla {
-  constructor(y, playerNumber) {
-    this.y = y;
+  constructor(playerNumber) {
+    this.x;
+    this.y;
     this.playerNumber = playerNumber;
     this.width = 50;
     this.height = 50;
     this.img = document.getElementById('temp-asset');
     this.img2 = document.getElementById('temp-asset-player2');
     this.alive = true;
+    this.buildingSpawn = this.selectBuilding(this.playerNumber);
+    this.adjustXY(this.buildingSpawn);
 
-    if (this.playerNumber === 1) {
-      this.x = Math.floor(Math.random() * 300);
-    } else {
-      this.x = Math.floor((Math.random() * 300) + 860);
-    }
+    // this.x = this.adjustX(x);
+    
     this.shootingCircle = {
       x: this.x,
       y: this.y - 120,
@@ -36,15 +41,6 @@ class Gorilla {
   }
 
   drawShootingCircle() {
-    // if (this.playerNumber === 1) {
-    //   if (this.shootingCircle.shootX - 150 < 0) {
-    //     this.shootingCircle.shootX = 150;
-    //   }
-    // } else if (this.playerNumber === 2) {
-    //   if (this.shootingCircle.shootX + 150 > 1200) {
-    //     this.shootingCircle.shootX = 1050;
-    //   }
-    // }
     if (this.playerNumber === 1) {
       this.shootingCircle.x = this.x+25;
       this.drawbackCircle.x = this.x+25;
@@ -56,13 +52,6 @@ class Gorilla {
       this.shootingCircle.y = this.y+25;
       this.drawbackCircle.y = this.y+25;
     }
-    // ct.beginPath();
-    // ct.arc(this.shootingCircle.x, this.shootingCircle.y, this.shootingCircle.r, 0, 2 * Math.PI);
-    // ct.strokeStyle = 'rgba(0, 0, 0, 0.8)';
-    // ct.stroke();
-    // ct.beginPath();
-    // ct.arc(this.drawbackCircle.drawX, this.drawbackCircle.drawY, this.drawbackCircle.r, 0, 2 * Math.PI);
-    // ct.stroke();
   }
 
   drawPlayer(x, y) {
@@ -71,6 +60,28 @@ class Gorilla {
     } else {
       ct.drawImage(this.img, x, y, 50, 50);
     }
+  }
+
+  selectBuilding(playerNumber) {
+    let randomBuilding;
+    if (playerNumber === 1) {
+      randomBuilding = Math.floor(Math.random() * 2);
+    } else if (playerNumber === 2) {
+      randomBuilding = Math.floor(Math.random() * 2) + buildings.length - 3;
+    }
+    return randomBuilding;
+  }
+
+  adjustXY(buildingNumber) {
+    let building = buildings[buildingNumber];
+    this.y = building.y - 50;
+    if (this.playerNumber === 1) {
+      this.x = building.x;
+    }
+    if (this.playerNumber === 2) {
+      this.x = building.right() - 50;
+    }
+    // this.x = building.x + Math.random() * (building.width - 50)
   }
 
   left() {
