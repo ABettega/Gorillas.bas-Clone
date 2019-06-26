@@ -21,7 +21,7 @@ class Gorilla {
     this.shootingCircle = {
       x: this.x,
       y: this.y - 120,
-      r: 75
+      r: 100
     };
 
     this.drawbackCircle = {

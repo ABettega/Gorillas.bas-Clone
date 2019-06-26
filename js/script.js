@@ -56,19 +56,20 @@ let angleBetween = function (p1, p2) {
 
 let getAimCoords = function (mousePos) {
   let angle = Math.PI / 2 - angleBetween(mousePos, shootingCirc);
-  // let angleExtra = Math.PI/180*15;
+  let angleExtra = Math.PI/180*5;
   let distance = Math.min(distBetween(shootingCirc, mousePos), shootingCirc.r);
-  let x = shootingCirc.x + distance * Math.sin(angle);
-  let y = shootingCirc.y + distance * Math.cos(angle);
-  // let x = shootingCirc.x + distance * Math.sin(angle-angleExtra);
-  // let y = shootingCirc.y + distance * Math.cos(angle-angleExtra);
-  // let x2 = shootingCirc.x + distance * Math.sin(angle+angleExtra);
-  // let y2 = shootingCirc.y + distance * Math.cos(angle+angleExtra);
+  // let x = shootingCirc.x + distance * Math.sin(angle);
+  // let y = shootingCirc.y + distance * Math.cos(angle);
+  let x = shootingCirc.x + distance * Math.sin(angle-angleExtra);
+  let y = shootingCirc.y + distance * Math.cos(angle-angleExtra);
+  let x2 = shootingCirc.x + distance * Math.sin(angle+angleExtra);
+  let y2 = shootingCirc.y + distance * Math.cos(angle+angleExtra);
   return {
     x: x,
     y: y,
-    // x2: x2,
-    // y2: y2
+    x2: x2,
+    y2: y2,
+    power: distance
   };
 }
 
@@ -118,6 +119,14 @@ let render = function () {
 let drawAimer = function () {
   if (drawnBack) {
     aimCoords = getAimCoords(mousePos);
+    ct.beginPath();
+    ct.moveTo(aimCoords.x, aimCoords.y);
+    ct.lineTo(shootingCirc.x, shootingCirc.y);
+    ct.lineTo(aimCoords.x2, aimCoords.y2);
+    ct.closePath();
+    ct.lineWidth = 2;
+    ct.fillStyle = `rgba(${2.55 * aimCoords.power},${0},${0},0.8)`;
+    ct.fill();
     ct.beginPath();
     ct.moveTo(aimCoords.x, aimCoords.y);
     ct.lineTo(shootingCirc.x, shootingCirc.y);
