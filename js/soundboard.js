@@ -7,3 +7,6 @@ explosionMinor.volume = 0.1;
 
 let explosionDeath = new Audio('sounds/explosionBig.mp3');
 explosionDeath.volume = 1;
+
+let gameOver = new Audio('sounds/gameOver.mp3');
+gameOver.volume = 0.0;

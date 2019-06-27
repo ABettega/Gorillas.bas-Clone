@@ -3,7 +3,7 @@ let buildings = [];
 class Building {
   constructor(x) {
     this.x = x;
-    this.y = 500 - (Math.floor(Math.random() * 200));
+    this.y = 500 - (Math.floor(Math.random() * 150));
     this.width = 200 - (Math.floor(Math.random() * 100));
     board.accruedWidth += this.width;
 

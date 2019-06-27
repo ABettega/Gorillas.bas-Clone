@@ -77,6 +77,7 @@ class Gorilla {
 
   loseLife() {
     this.lives -= 1;
+    explosionDeath.play();
     justHit = true;
     if (this.lives <= 0) {
       this.alive = false;
@@ -85,9 +86,9 @@ class Gorilla {
       } else {
         board.gameWinner = 1;
       }
-      setTimeout(function() {
-        board.stop();
-      }, 300);
+      // setTimeout(function() {
+      //   board.stop();
+      // }, 300);
     }
   }
 

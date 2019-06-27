@@ -136,8 +136,6 @@ let main = function () {
       cancelAnimationFrame(animationFrame);
       board.stop();
     }, 300);
-    // cancelAnimationFrame(animationFrame);
-    // board.stop();
   } else {
     animationframe = requestAnimationFrame(main);
   }
