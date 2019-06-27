@@ -33,5 +33,7 @@ Ironhack - Module 1 Final Project
 - [ ] Deformação de terreno
 ### O que faltou
 Não consegui adicionar a opção de mais armas pela falta de tempo. Levaria muito tempo para deixar perfeito, optei por remover para manter o projeto funcionando conforme estipulado.
+
 Movimentação também era um objetivo legal, mas ia levar muito tempo.
+
 A deformação de terreno obviamente seria extremamente difícil, por isso realmente era um strech goal que só seria buscado se todo o resto estivesse pronto. Levaria a uma completa remodelação de toda a lógica de colisão.
