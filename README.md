@@ -26,13 +26,15 @@
 - [x] Correção da lógica de colisão
 - [x] Adição de trilha e efeitos sonoros
 - [x] Beautifying, deixando tudo mais visualmente cognizante
-- [ ] Sistema de vidas / health
+- [x] Sistema de vidas / health
+- [ ] Adição de uma flecha mostrando a direção do vento
 - [ ] Adição de mais opções de armas
 - [ ] Movimentação de jogadores
 - [ ] Deformação de terreno
+
 ### O que faltou
 Não consegui adicionar a opção de mais armas pela falta de tempo. Levaria muito tempo para deixar perfeito, optei por remover para manter o projeto funcionando conforme estipulado.
 
 Movimentação também era um objetivo legal, mas ia levar muito tempo.
 
-A deformação de terreno obviamente seria extremamente difícil, por isso realmente era um strech goal que só seria buscado se todo o resto estivesse pronto. Levaria a uma completa remodelação de toda a lógica de colisão.
+A deformação de terreno obviamente seria extremamente difícil, por isso realmente era um objetivo a longo prazo que só seria buscado se todo o resto estivesse pronto. Levaria a uma completa remodelação de toda a lógica de colisão.
