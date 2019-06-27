@@ -40,6 +40,8 @@ class Banana {
   calcTrajectory() {
     if (this.y > 600) {
       this.collided = true;
+      if (justHit)
+        explosionDeath.play();
       explosionMinor.play();
     }
     if (this.collided && !this.firing) {
@@ -99,12 +101,10 @@ class Banana {
     }
     if (board.playerTurn === 1) {
       if (this.crashWith(player2) && !justHit) {
-        explosionDeath.play();
         player2.loseLife();
       }
     } else {
       if (this.crashWith(player1) && !justHit) {
-        explosionDeath.play();
         player1.loseLife();
       }
     }
