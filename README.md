@@ -1,5 +1,4 @@
 # Gorillas.bas-Clone
-Ironhack - Module 1 Final Project
 
 ## O que é [Gorillas.bas](https://en.wikipedia.org/wiki/Gorillas_(video_game))?
 [O jogo](https://www.youtube.com/watch?v=ncykt-YJO1M), criado em 1991 na linguagem QBasic, é multiplayer. Consiste em dois jogadores, os dois gorilas, arremessando bananas explosivas para tentar explodir ao outro. As bananas explodem e deformam o terreno onde colidem. Para realizar o arremesso, os jogadores escrevem o ângulo e a potência desejada para o arremesso.
