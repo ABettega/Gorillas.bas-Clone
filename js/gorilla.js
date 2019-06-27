@@ -17,7 +17,7 @@ class Gorilla {
     this.alive = true;
     this.buildingSpawn = this.selectBuilding(this.playerNumber);
     this.adjustXY(this.buildingSpawn);
-    this.lives = 3;
+    this.lives = 1;
 
     this.shootingCircle = {
       x: this.x,

@@ -33,7 +33,14 @@ class Board {
   }
   stop() {
     cancelAnimationFrame(animationFrame);
-    soundtrack.pause();
+    setTimeout(function() {
+      while (soundtrack.volume > 0) {
+        console.log(`Soundtrack Volume before: ${soundtrack.volume}`);
+        soundtrack.volume -= 0.00001;
+        soundtrack.play();
+        console.log(`Soundtrack Volume after: ${soundtrack.volume}`);
+      }
+    }, 100);
     ct.clearRect(0, 0, 1200, 600);
     ct.fillStyle = 'black';
     ct.fillRect(0, 0, 1200, 600);
