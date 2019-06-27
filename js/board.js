@@ -38,9 +38,11 @@ class Board {
     ct.fillStyle = 'black';
     ct.fillRect(0, 0, 1200, 600);
     ct.fill();
-    ct.fillStyle = 'red';
-    ct.font = '50px Arial'
-    ct.fillText(`Game Over! The winner is Player ${this.gameWinner}!`, 150, 100);
+    ct.fillStyle = 'darkred';
+    ct.font = '40px Arial'
+    ct.fillText(` - Game over -`, 470, 300);
+    ct.fillText(`The winner is player ${this.gameWinner}!`, 400, 340);
+    ct.drawImage(imgBanana1, 880, 280)
   }
   drawBoard() {
     ct.globalAlpha = 0.4;

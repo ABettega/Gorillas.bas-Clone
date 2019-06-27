@@ -57,6 +57,7 @@ let angleBetween = function (p1, p2) {
 let getAimCoords = function (mousePos) {
   let angle = Math.PI / 2 - angleBetween(mousePos, shootingCirc);
   let angleExtra = Math.PI/180*5;
+  let angleReverse = Math.PI;
   let distance = Math.min(distBetween(shootingCirc, mousePos), shootingCirc.r);
   // let x = shootingCirc.x + distance * Math.sin(angle);
   // let y = shootingCirc.y + distance * Math.cos(angle);
@@ -64,12 +65,16 @@ let getAimCoords = function (mousePos) {
   let y = shootingCirc.y + distance * Math.cos(angle-angleExtra);
   let x2 = shootingCirc.x + distance * Math.sin(angle+angleExtra);
   let y2 = shootingCirc.y + distance * Math.cos(angle+angleExtra);
+  let xReverse = shootingCirc.x + distance * Math.sin(angle+angleReverse);
+  let yReverse = shootingCirc.y + distance * Math.cos(angle+angleReverse);
   return {
     x: x,
     y: y,
     x2: x2,
     y2: y2,
-    power: distance
+    power: distance,
+    xReverse: xReverse,
+    yReverse: yReverse
   };
 }
 
