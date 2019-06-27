@@ -2,6 +2,8 @@ let player1;
 let player2;
 let drawBackCirc;
 let shootingCirc;
+let justHit = false;
+let lifeImage = document.getElementById('life');
 
 class Gorilla {
   constructor(playerNumber) {
@@ -15,9 +17,8 @@ class Gorilla {
     this.alive = true;
     this.buildingSpawn = this.selectBuilding(this.playerNumber);
     this.adjustXY(this.buildingSpawn);
+    this.lives = 3;
 
-    // this.x = this.adjustX(x);
-    
     this.shootingCircle = {
       x: this.x,
       y: this.y - 120,
@@ -29,15 +30,6 @@ class Gorilla {
       y: this.y - 120,
       r: 10
     };
-  }
-
-  update() {
-    // if (this.player) {
-    // this.drawPlayer(this.x, this.y);
-    // } else {
-    //   ct.fillStyle = 'red'
-    //   ct.fillRect(this.x, this.y, this.width, this.height);
-    // }
   }
 
   drawShootingCircle() {
@@ -80,6 +72,22 @@ class Gorilla {
     }
     if (this.playerNumber === 2) {
       this.x = building.right() - 50;
+    }
+  }
+
+  loseLife() {
+    this.lives -= 1;
+    justHit = true;
+    if (this.lives <= 0) {
+      this.alive = false;
+      if (this.playerNumber === 1) {
+        board.gameWinner = 2;
+      } else {
+        board.gameWinner = 1;
+      }
+      setTimeout(function() {
+        board.stop();
+      }, 300);
     }
   }
 

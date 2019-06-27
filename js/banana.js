@@ -27,7 +27,6 @@ class Banana {
     this.width = 25;
     this.height = 25;
     this.collided = false;
-    // this.damage = 1;
   };
   fireBanana() {
     if (mousePos && !this.firing) {
@@ -99,20 +98,14 @@ class Banana {
       }
     }
     if (board.playerTurn === 1) {
-      if (this.crashWith(player2)) {
-        board.gameWinner = 1;
+      if (this.crashWith(player2) && !justHit) {
         explosionDeath.play();
-        setTimeout(function () {
-          player2.alive = false;
-        }, 100);
+        player2.loseLife();
       }
     } else {
-      if (this.crashWith(player1)) {
-        board.gameWinner = 2;
+      if (this.crashWith(player1) && !justHit) {
         explosionDeath.play();
-        setTimeout(function () {
-          player1.alive = false;
-        }, 100);
+        player1.loseLife();
       }
     }
     for (let i = 0; i < buildings.length; i += 1) {
@@ -132,11 +125,14 @@ class Banana {
     return this.y + this.height;
   }
   crashWith(gorilla) {
-    return (
-      this.bottom() > gorilla.top() &&
-      this.top() < gorilla.bottom() &&
-      this.right() > gorilla.left() &&
-      this.left() < gorilla.right())
+    let retorno = this.bottom() > gorilla.top() &&
+    this.top() < gorilla.bottom() &&
+    this.right() > gorilla.left() &&
+    this.left() < gorilla.right();
+    if (retorno && !justHit) {
+      gorilla.loseLife();
+    }
+    return retorno;
   }
   checkCollision(building) {
     if (this.bottom() > building.top() &&
@@ -145,7 +141,10 @@ class Banana {
       this.left() < building.right()) {
       this.collided = true;
       if (board.gameWinner === 0) {
-        explosionMinor.play();
+        if (!justHit)
+          explosionMinor.play();
+        else
+          explosionDeath.play();
       }
     }
   }

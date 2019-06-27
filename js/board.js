@@ -53,6 +53,15 @@ class Board {
     ct.fillStyle = '#FFF';
     ct.fillText(`Wind Speed: ${this.windSpeed}`, 2, 10);
     ct.fillText(`Gravity: ${this.gravity}`, 2, 20);
+
+    ct.globalAlpha = 0.6;
+    for (let i = 0; i < player1.lives; i += 1) {
+      ct.drawImage(lifeImage, 50 + (70 * i), 50, 50, 50);
+    }
+    for (let i = 0; i < player2.lives; i += 1) {
+      ct.drawImage(lifeImage, 1100 - (70 * i), 50, 50, 50);
+    }
+    ct.globalAlpha = 1.0;
   }
   takeTurn() {
     if (this.playerTurn === 1) {
@@ -75,12 +84,16 @@ class Board {
     }
     this.windSpeedChanger();
     this.gravityChanger();
+    justHit = false;
   }
   moonGravity() {
     this.gravity = 0.2;
   }
   jupiterGravity() {
     this.gravity = 0.6;
+  }
+  chicagoWind() {
+    this.windSpeed = 1.0;
   }
   windSpeedChanger() {
     let set = {0: 0.04, 
