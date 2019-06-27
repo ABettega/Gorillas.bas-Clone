@@ -24,19 +24,6 @@ window.onload = function () {
   };
 }
 
-// document.onkeydown = function(e) {
-//   switch (e.keyCode) {
-//     case 37: // left arrow
-//       if (player.x >= 0)
-//         player.x -= 30;
-//       break;
-//     case 39: // right arrow
-//     if (player.x < 350)
-//       player.x += 30;
-//     break;
-//   }
-// };
-
 function weightedRandom(spec) {
   let i, sum=0, r=Math.random();
   for (i in spec) {
@@ -57,24 +44,17 @@ let angleBetween = function (p1, p2) {
 let getAimCoords = function (mousePos) {
   let angle = Math.PI / 2 - angleBetween(mousePos, shootingCirc);
   let angleExtra = Math.PI/180*5;
-  let angleReverse = Math.PI;
   let distance = Math.min(distBetween(shootingCirc, mousePos), shootingCirc.r);
-  // let x = shootingCirc.x + distance * Math.sin(angle);
-  // let y = shootingCirc.y + distance * Math.cos(angle);
   let x = shootingCirc.x + distance * Math.sin(angle-angleExtra);
   let y = shootingCirc.y + distance * Math.cos(angle-angleExtra);
   let x2 = shootingCirc.x + distance * Math.sin(angle+angleExtra);
   let y2 = shootingCirc.y + distance * Math.cos(angle+angleExtra);
-  let xReverse = shootingCirc.x + distance * Math.sin(angle+angleReverse);
-  let yReverse = shootingCirc.y + distance * Math.cos(angle+angleReverse);
   return {
     x: x,
     y: y,
     x2: x2,
     y2: y2,
     power: distance,
-    xReverse: xReverse,
-    yReverse: yReverse
   };
 }
 
@@ -146,12 +126,18 @@ let drawAimer = function () {
 let main = function () {
   update();
   render();
-  if (!player1.alive) {
-    cancelAnimationFrame(animationFrame);
-    board.stop();
-  } else if (!player2.alive) {
-    cancelAnimationFrame(animationFrame);
-    board.stop();
+  if (!player1.alive && player1.lives === 0) {
+    setTimeout(function() {
+      cancelAnimationFrame(animationFrame);
+      board.stop();
+    }, 300);
+  } else if (!player2.alive && player2.lives === 0) {
+    setTimeout(function() {
+      cancelAnimationFrame(animationFrame);
+      board.stop();
+    }, 300);
+    // cancelAnimationFrame(animationFrame);
+    // board.stop();
   } else {
     animationframe = requestAnimationFrame(main);
   }
