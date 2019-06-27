@@ -48,7 +48,6 @@ class Banana {
       board.changeTurn();
       addBanana();
     }
-    // if (this.y <= board.ground && this.firing) {
     if (!this.collided && this.firing) {
       this.velY += board.gravity;
       this.velX += board.windSpeed;
