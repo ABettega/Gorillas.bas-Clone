@@ -37,4 +37,4 @@ Não consegui adicionar a opção de mais armas pela falta de tempo. Levaria mui
 
 Movimentação também era um objetivo legal, mas ia levar muito tempo.
 
-A deformação de terreno obviamente seria extremamente difícil, por isso realmente era um objetivo a longo prazo que só seria buscado se todo o resto estivesse pronto. Levaria a uma completa remodelação de toda a lógica de colisão.
+A deformação de terreno obviamente seria extremamente difícil, por isso realmente era um objetivo a longo prazo que só seria buscado se todo o resto estivesse pronto. Levaria a uma completa remodelagem de toda a lógica de colisão.
